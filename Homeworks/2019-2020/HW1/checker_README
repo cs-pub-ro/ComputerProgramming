@@ -1,0 +1,8 @@
+Pentru a rula checkerul, acest atrebuie sa se afle in acelasi director cu 
+testele (directoarele), Makefileul (care sa aiba reguli pentru build, run si
+clean) si fisierul vostru sursa care sa se numeasca ip.c
+
+Pentru a se rula checkerul pe toate testele se va rula "./check". 
+
+Sunt trei categorii de teste care se pot rula separat: "easy", "medium" si 
+"hard" in felul urmator: "./check easy".

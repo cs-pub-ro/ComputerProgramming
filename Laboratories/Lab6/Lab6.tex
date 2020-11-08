@@ -1,0 +1,454 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MatPlotLib and Random Cheat Sheet
+%
+% Edited by Michelle Cristina de Sousa Baltazar
+%
+% http://matplotlib.org/api/pyplot_summary.html
+% http://matplotlib.org/users/pyplot_tutorial.html
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper]{article}
+\usepackage[landscape]{geometry}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+% Mihnea
+\usepackage{textcomp} % \textquotesingle: Racket: '(1 2 3)
+\usepackage{couriers}
+\usepackage{listings}
+\lstset{
+	numbers			= left,
+	numberstyle		= \tiny,
+	numbersep       = 5pt,
+	captionpos		= b,
+	breaklines		= true,
+	basicstyle		= \ttfamily\footnotesize,
+	tabsize			= 4,
+	escapeinside	= {~}{~},
+}
+\lstdefinelanguage{Racket}{
+  morekeywords=[1]{define, define-syntax, define-macro, lambda, define-stream, stream-lambda},
+  morekeywords=[2]{begin, call-with-current-continuation, call/cc,
+    call-with-input-file, call-with-output-file, case, cond,
+    do, else, for-each, if,
+    let*, let, let-syntax, letrec, letrec-syntax,
+    let-values, let*-values,
+    and, or, not, delay, force,
+    quasiquote, quote, unquote, unquote-splicing,
+    map, fold, syntax, syntax-rules, eval, environment },
+  morekeywords=[3]{import, export},
+  alsodigit=!\$\%&*+-./:<=>?@^_~,
+  sensitive=true,
+  morecomment=[l]{;},
+  morecomment=[s]{\#|}{|\#},
+  morestring=[b]",
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color[rgb]{0,.3,.7},
+  commentstyle=\color[rgb]{0.133,0.545,0.133},
+  stringstyle={\color[rgb]{0.75,0.49,0.07}},
+  upquote=true,
+  breaklines=true,
+  breakatwhitespace=true,
+  literate=*{`}{{`}}{1}
+}
+
+\title{Racket}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+
+\advance\topmargin-1.0in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip1pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+%\colorbox[HTML]{e4e4e4}{\makebox[\textwidth-2\fboxsep][l]{texto}
+\begin{document}
+
+\begin{center}{\huge{\textbf{Matrice. Operaţii cu matrice: adunare, înmulţire. Reprezentarea în memorie.}}}
+% {\large Laborator}
+\end{center}
+\begin{multicols*}{3}
+
+\tikzstyle{mybox} = [draw=black, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=black, text=white, font=\bfseries]
+
+% Mihnea
+\tikzstyle{mybox_code} = [mybox, draw = orange, fill=sandybrown]
+\tikzstyle{fancytitle_code} = [fancytitle, fill = orange]
+
+\definecolor{almond}{rgb}{0.94, 0.87, 0.8}
+\definecolor{apricot}{rgb}{0.98, 0.81, 0.69}
+\definecolor{atomictangerine}{rgb}{1.0, 0.6, 0.4}
+\definecolor{sandybrown}{rgb}{0.96, 0.64, 0.38}
+\definecolor{buff}{rgb}{0.94, 0.86, 0.51}
+
+\definecolor{persianred}{rgb}{0.8, 0.2, 0.2}
+\definecolor{papayawhip}{rgb}{1.0, 0.94, 0.84}
+\tikzstyle{mybox_persianred} = [mybox, draw = persianred, fill=papayawhip]
+\tikzstyle{fancytitle_persianred} = [fancytitle, fill = persianred]
+
+\definecolor{whitesmoke}{rgb}{0.96, 0.96, 0.96}
+\definecolor{wenge}{rgb}{0.39, 0.33, 0.32}
+\tikzstyle{mybox_blue} = [mybox, draw = wenge, fill=whitesmoke]
+\tikzstyle{fancytitle_blue} = [fancytitle, fill = wenge]
+
+\definecolor{cerise}{rgb}{0.87, 0.19, 0.39}
+\definecolor{mistyrose}{rgb}{1.0, 0.89, 0.88}
+\tikzstyle{mybox_cerise} = [mybox, draw = cerise, fill=mistyrose]
+\tikzstyle{fancytitle_cerise} = [fancytitle, fill = cerise]
+
+\definecolor{pinegreen}{rgb}{0.0, 0.47, 0.44}
+\definecolor{bubbles}{rgb}{0.91, 1.0, 1.0}
+\tikzstyle{mybox_pinegreen} = [mybox, draw = pinegreen, fill=bubbles]
+\tikzstyle{fancytitle_pinegreen} = [fancytitle, fill = pinegreen]
+
+\definecolor{cream}{rgb}{1.0, 0.99, 0.82}
+\definecolor{mikadoyellow}{rgb}{1.0, 0.77, 0.05}
+\tikzstyle{mybox_mikadoyellow} = [mybox, draw = mikadoyellow, fill=cream]
+\tikzstyle{fancytitle_mikadoyellow} = [fancytitle, fill = mikadoyellow]
+
+\definecolor{cornsilk}{rgb}{1.0, 0.97, 0.86}
+\tikzstyle{mybox_orange} = [mybox, draw = orange, fill=cornsilk]
+\tikzstyle{fancytitle_orange} = [fancytitle, fill = orange]
+
+\definecolor{aliceblue}{rgb}{0.94, 0.97, 1.0}
+\definecolor{seagreen}{rgb}{0.18, 0.55, 0.34}
+\tikzstyle{mybox_seagreen} = [mybox, draw = seagreen, fill=aliceblue]
+\tikzstyle{fancytitle_seagreen} = [fancytitle, fill = seagreen]
+
+\definecolor{jazzberryjam}{rgb}{0.65, 0.04, 0.37}
+\definecolor{almond}{rgb}{0.94, 0.87, 0.8}
+\tikzstyle{mybox_jazzberryjam} = [mybox, draw = jazzberryjam, fill=almond]
+\tikzstyle{fancytitle_jazzberryjam} = [fancytitle, fill = jazzberryjam]
+
+\definecolor{amaranth}{rgb}{0.9, 0.17, 0.31}
+\definecolor{bisque}{rgb}{1.0, 0.89, 0.77}
+\tikzstyle{mybox_amaranth} = [mybox, draw = amaranth, fill=bisque]
+\tikzstyle{fancytitle_amaranth} = [fancytitle, fill = amaranth]
+
+\definecolor{carminered}{rgb}{1.0, 0.0, 0.22}
+\definecolor{blanchedalmond}{rgb}{1.0, 0.92, 0.8}
+\tikzstyle{mybox_carminered} = [mybox, draw = amaranth, fill=blanchedalmond]
+\tikzstyle{fancytitle_carminered} = [fancytitle, fill = carminered]
+
+\definecolor{midnightgreen}{rgb}{0.0, 0.29, 0.33}
+\definecolor{lavendermist}{rgb}{0.9, 0.9, 0.98}
+\tikzstyle{mybox_midnightgreen} = [mybox, draw = midnightgreen, fill=lavendermist]
+\tikzstyle{fancytitle_midnightgreen} = [fancytitle, fill = midnightgreen]
+
+\definecolor{indigo}{rgb}{0.29, 0.0, 0.51}
+\definecolor{isabelline}{rgb}{0.96, 0.94, 0.93}
+\tikzstyle{mybox_indigo} = [mybox, draw = indigo, fill=isabelline]
+\tikzstyle{fancytitle_indigo} = [fancytitle, fill = indigo]
+
+\definecolor{russet}{rgb}{0.5, 0.27, 0.11}
+\definecolor{ivory}{rgb}{1.0, 1.0, 0.94}
+\tikzstyle{mybox_russet} = [mybox, draw = russet, fill=ivory]
+\tikzstyle{fancytitle_russet} = [fancytitle, fill = russet]
+
+\definecolor{neongreen}{rgb}{0.22, 0.88, 0.08}
+\definecolor{splashedwhite}{rgb}{1.0, 0.99, 1.0}
+\tikzstyle{mybox_neongreen} = [mybox, draw = neongreen, fill=splashedwhite]
+\tikzstyle{fancytitle_neongreen} = [fancytitle, fill = neongreen]
+
+%---------------------------------------------------------------------------------
+
+\begin{tikzpicture}
+\node [mybox_persianred] (box){%
+    \begin{minipage}{0.3\textwidth}
+\textbf
+Matricea este o colecţie omogenă şi bidimensională de elemente.
+
+Acestea pot fi accesate prin intermediul a doi indici, numerotaţi, ca şi în cazul vectorilor, începand de la 0. 
+
+Declaraţia unei matrice este de forma:
+\begin{lstlisting}[language=Haskell, numbers=none]
+<tip_elemente> <nume_matrice>[<dim_1>][<dim_2>];
+
+int mat[5][10];
+
+#define MAX_ELEM 100
+float a[MAX_ELEM][MAX_ELEM];
+\end{lstlisting}
+\textbf
+Numărul de elemente ale unei matrice va fi:
+\begin{lstlisting}[language=Haskell, numbers=none]
+dim1_1 * dim_2
+\end{lstlisting}
+	\end{minipage}
+};
+
+\node[fancytitle_persianred, right=10pt] at (box.north west) {Matrice};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node [mybox_persianred] (box){%
+    \begin{minipage}{0.3\textwidth}
+\begin{lstlisting}[language=Haskell, numbers=none]
+<tip_elemente> <nume_tablou>[<dim_1>][<dim_2>]...[<dim_n>];
+
+int cube[3][3][3];
+\end{lstlisting}
+
+	\end{minipage}
+};
+
+\node[fancytitle_seagreen, right=10pt] at (box.north west) {Tablouri multidimensionale};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node [mybox_persianred] (box){%
+    \begin{minipage}{0.3\textwidth}
+\textbf
+Standardul C impune ca un tablou să fie memorat într-o zonă continuă de memorie, astfel ca pentru un tabloul de forma:
+\begin{lstlisting}[language=Haskell, numbers=none]
+T tab[dim1][dim2]...[dimn];
+\end{lstlisting}
+\textbf
+Dimensiunea ocupată în memorie va fi:
+\begin{lstlisting}[language=Haskell, numbers=none]
+sizeof(T)*dim1*dim2*...*dimn
+\end{lstlisting}
+\textbf
+Vom considera în continuare cazul particular al unui vector vect de lungime n, şi al unui element oarecare al acestuia, de pe pozitia i.
+
+Atunci când întalneşte numele vect, compilatorul va intelege “adresa în memorie de la care începe vectorul vect”. 
+\begin{lstlisting}[language=Haskell, numbers=none]
+char a[100];
+a[0] = 1;
+3[a] = 5;
+\end{lstlisting}
+\textbf
+Asignează 5 variabilei de tip char de la adresa:
+\begin{lstlisting}[language=Haskell, numbers=none]
+3 + a * sizeof(char) = 3 + a
+\end{lstlisting}
+\textbf
+Este echivalentă cu:
+\begin{lstlisting}[language=Haskell, numbers=none]
+a[3] = 5;
+\end{lstlisting}
+
+	\end{minipage}
+};
+
+\node[fancytitle_jazzberryjam, right=10pt] at (box.north west) {Reprezentarea in memorie};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node [mybox_amaranth] (box){%
+    \begin{minipage}{0.3\textwidth}
+\textbf
+Declararea unei matrici unitate:
+\begin{lstlisting}[language=Haskell, numbers=none]
+#define M 20 /* nr maxim de linii si de coloane */
+ 
+int main() {
+  float unit[M][M];
+  int i,j,n;
+ 
+  printf("nr.linii/coloane: ");
+  scanf("%d", &n);
+  if (n > M) {
+    return;
+  }
+ 
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n; j++) {
+      if (i != j) {
+        unit[i][j]=0;
+      } else {
+        unit[i][j]=1;
+      }
+    }
+  }
+ 
+  return 0;
+}
+\end{lstlisting}
+\textbf
+Citire/scriere de matrice de reali:
+\begin{lstlisting}[language=Haskell, numbers=none]
+int main() {
+  int nl, nc, i, j;
+  float a[20][20];
+   /* Citire de matrice */
+  printf("nr.linii: ");
+  scanf("%d", &nl);
+  printf("nr.coloane: ");
+  scanf("%d", &nc);
+  if (nl > 20 || nc > 20) {
+    printf("Eroare: dimensiuni > 20 \n");
+    return ;
+  }
+ 
+  for (i = 0; i < nl; i++) {
+    for (j = 0; j < nc; j++) {
+      scanf("%f", &a[i][j]);
+    }
+  }
+  /* Afisare matrice */
+  for (i = 0; i < nl; i++) {
+    for (j = 0; j < nc; j++) {
+      printf("%f ",a[i][j]);
+    }
+    printf ("\n");
+  }
+  return 0;
+}
+\end{lstlisting}
+    \end{minipage}
+};
+
+\node[fancytitle_amaranth, right=10pt] at (box.north west) {Exemple de programre};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node [mybox_orange] (box){%
+    \begin{minipage}{0.3\textwidth}
+\begin{lstlisting}[language=Haskell, numbers=none]
+#include <stdio.h>
+ 
+#define N 100
+ 
+ 
+void transpose_matrix(int m[N][N], int n)
+{
+	int i, j, tmp;
+ 
+	for (i = 0; i < n; i++) {
+		for (j = i + 1; j < n; j++) {
+			tmp = m[i][j];
+			m[i][j] = m[j][i];
+			m[j][i] = tmp;
+		}
+	}
+}
+ 
+ 
+void print_matrix(int m[N][N], int n)
+{
+	int i, j;
+ 
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			printf("%d ", m[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+ 
+ 
+int main(void)
+{
+	int i, n = 3;
+ 
+	int V[N][N] = {
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
+ 
+	print_matrix(V, n);
+	transpose_matrix(V, n);
+	print_matrix(V, n);
+ 
+	return 0;
+}
+\end{lstlisting}
+    \end{minipage}
+};
+
+\node[fancytitle_orange, right=10pt] at (box.north west) {Transpunerea unei matrici patratice};
+\end{tikzpicture}
+
+
+% %---------------------------------------------------------------------------------
+
+% \begin{tikzpicture}
+% \node [mybox_persianred] (box){%
+%     \begin{minipage}{0.3\textwidth}\centering
+% %     	{\centering\bf\color{persianred}
+% 		\begin{lstlisting}[language=Racket]
+% DA: (cons x L)        NU: (append (list x) L)
+% 	                  NU: (append (cons x '()) L)
+% DA: (if c vt vf)      NU: (if (equal? c #t) vt vf)
+% DA: (null? L)         NU: (= (length L) 0)
+% DA: (zero? x)         NU: (equal? x 0)
+% DA: test              NU: (if test #t #f)
+% DA: (or ceva1 ceva2)  NU: (if ceva1 #t ceva2)
+% DA: (and ceva1 ceva2) NU: (if ceva1 ceva2 #f)
+%         \end{lstlisting}
+%     \end{minipage}
+% };
+
+% \node[fancytitle_persianred, right=10pt] at (box.north west) {AȘA  DA / AȘA NU};
+% \end{tikzpicture}
+
+
+% %---------------------------------------------------------------------------------
+
+% % \begin{tikzpicture}
+% % \node [mybox_code] (box){%
+% %     \begin{minipage}{0.3\textwidth}
+% % 		\begin{lstlisting}[language=Racket]
+
+% %         \end{lstlisting}
+% %     \end{minipage}
+% % };
+
+% % \node[fancytitle_code, right=10pt] at (box.north west) {Cum gandim un program};
+% % \end{tikzpicture}
+
+% %---------------------------------------------------------------------------------
+
+% \begin{tikzpicture}
+% \node [mybox_orange] (box){%
+%     \begin{minipage}{0.3\textwidth}\small
+%       \begin{enumerate}\itemsep.1ex
+%       	\item După ce variabilă(e) fac recursivitatea? (ce variabilă(e) se schimbă de la un apel la altul?)
+%         \item Care sunt condițiile de oprire în funcție de aceste variabile?(cazurile ``de bază'')
+%         \item Ce se întâmplă când problema nu este încă elementară? (Obligatoriu aici cel puțin un apel recursiv)
+%       \end{enumerate}
+%     \end{minipage}
+% };
+% \node[fancytitle_orange, right=10pt] at (box.north west) {Programare cu funcții recursive};
+% \end{tikzpicture}
+
+
+% %---------------------------------------------------------------------------------
+
+% \begin{tikzpicture}
+% \node [mybox_neongreen] (box){%
+%     \begin{minipage}{0.3\textwidth}\centering
+% \href{http://docs.racket-lang.org/}{http://docs.racket-lang.org/}
+%     \end{minipage}
+% };
+
+% \node[fancytitle_neongreen, right=10pt] at (box.north west) {Folositi cu incredere!};
+% \end{tikzpicture}
+
+%---------------------------------------------------------------------------------
+
+\end{multicols*}
+\end{document}
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help

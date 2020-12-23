@@ -2,10 +2,13 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "util/print_board.h"
 
 #define MAX_WORD_SIZE 30
+#define MAX_LINE_LENGTH 100
+#define MAX_INT_LENGTH 10
 
 int lettersPoints[] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
 
@@ -218,12 +221,49 @@ int findAndPlaceBestWord(char board[BOARD_SIZE][BOARD_SIZE],
     return bestScore;
 }
 
+/**
+ * Verifica daca string-ul are un '\n' la final si il elimina
+ */
+void removeNewLineFromString(char string[]){
+    if(string[strlen(string) - 1] == '\n'){
+        string[strlen(string) - 1] = 0;
+    }
+}
+
+/**
+ * Citeste un intreg de la tastatura
+ */
+int readInteger(){
+    char aux[MAX_INT_LENGTH];
+    fgets(aux, sizeof(aux), stdin);
+    return atoi(aux);
+}
+
+/**
+ * Citeste un cuvant, alaturi de coordonatele si directia acestuia.
+ */
+void readWordInformation(int *y, int *x, int *direction, char word[]){
+    char line[MAX_LINE_LENGTH];
+    fgets(line, sizeof(line), stdin);
+    
+    char *p = strtok(line, " ");
+    *y = atoi(p);
+    p = strtok(NULL, " ");
+    *x = atoi(p);
+    p = strtok(NULL, " ");
+    *direction = atoi(p);
+    p = strtok(NULL, " ");
+    strcpy(word, p);
+    removeNewLineFromString(word);
+}
+
 void solveTask1(char board[BOARD_SIZE][BOARD_SIZE]) {
     int n, y, x, direction;
     char word[MAX_WORD_SIZE];
-    scanf("%d", &n);
+
+    n = readInteger();
     for (int i = 0; i < n; i++) {
-        scanf("%d%d%*c%d%s", &y, &x, &direction, word);
+        readWordInformation(&y, &x, &direction, word);
         addWordToBoard(board, y, x, direction, word);
     }
     print_board(board);
@@ -233,9 +273,9 @@ void solveTask2() {
     int n, y, x, direction;
     int playerScore1 = 0, playerScore2 = 0;
     char word[MAX_WORD_SIZE];
-    scanf("%d", &n);
+    n = readInteger();
     for (int i = 0; i < n; i++) {
-        scanf("%d%d%d%s", &y, &x, &direction, word);
+        readWordInformation(&y, &x, &direction, word);
         if (i % 2 == 0) {
             playerScore1 += getWordPointsWithoutBonus(word);
         } else {
@@ -250,11 +290,13 @@ void solveTask3() {
     int n, y, x, direction;
     int playerScore1 = 0, playerScore2 = 0;
     char word[MAX_WORD_SIZE], bonusString1[MAX_WORD_SIZE], bonusString2[MAX_WORD_SIZE];
-    scanf("%s", bonusString1);
-    scanf("%s", bonusString2);
-    scanf("%d", &n);
+    fgets(bonusString1, sizeof(bonusString1), stdin);
+    fgets(bonusString2, sizeof(bonusString2), stdin);
+    removeNewLineFromString(bonusString1);
+    removeNewLineFromString(bonusString2);
+    n = readInteger();
     for (int i = 0; i < n; i++) {
-        scanf("%d%d%d%s", &y, &x, &direction, word);
+        readWordInformation(&y, &x, &direction, word);
         if (i % 2 == 0) {
             playerScore1 += getWordPointsWithBonus(word, y, x, direction, bonusString1, bonusString2);
         } else {
@@ -270,9 +312,11 @@ void solveTask4(char board[BOARD_SIZE][BOARD_SIZE]) {
     char word[MAX_WORD_SIZE], bonusString1[MAX_WORD_SIZE], bonusString2[MAX_WORD_SIZE];
     char wordsPlayed[NUM_WORDS][MAX_WORD_SIZE];  // Retin cuvintele jucate pana acum
     int noWordsPlayed = 0;                       // Numarul de cuvinte jucate pana acum
-    scanf("%s", bonusString1);
-    scanf("%s", bonusString2);
-    scanf("%d", &n);
+    fgets(bonusString1, sizeof(bonusString1), stdin);
+    fgets(bonusString2, sizeof(bonusString2), stdin);
+    removeNewLineFromString(bonusString1);
+    removeNewLineFromString(bonusString2);
+    n = readInteger();
     for (int i = 0; i < n; i++) {
         scanf("%d%d%d%s", &y, &x, &direction, word);
         addWordToBoard(board, y, x, direction, word);
@@ -289,11 +333,14 @@ void solveTask5(char board[BOARD_SIZE][BOARD_SIZE]) {
     char word[MAX_WORD_SIZE], bonusString1[MAX_WORD_SIZE], bonusString2[MAX_WORD_SIZE];
     char wordsPlayed[NUM_WORDS][MAX_WORD_SIZE];  // Retin cuvintele jucate pana acum
     int noWordsPlayed = 0;                       // Numarul de cuvinte jucate pana acum
-    scanf("%s", bonusString1);
-    scanf("%s", bonusString2);
-    scanf("%d", &n);
+    fgets(bonusString1, sizeof(bonusString1), stdin);
+    fgets(bonusString2, sizeof(bonusString2), stdin);
+    removeNewLineFromString(bonusString1);
+    removeNewLineFromString(bonusString2);
+    n = readInteger();
     for (int i = 0; i < n; i++) {
-        scanf("%d%d%d%s", &y, &x, &direction, word);
+        readWordInformation(&y, &x, &direction, word);
+        // scanf("%d%d%d%s", &y, &x, &direction, word);
         if (i % 2 == 0) {
             playerScore1 += getWordPointsWithBonus(word, y, x, direction, bonusString1, bonusString2);
         } else {
@@ -318,9 +365,11 @@ void solveTask6(char board[BOARD_SIZE][BOARD_SIZE]) {
     char word[MAX_WORD_SIZE], bonusString1[MAX_WORD_SIZE], bonusString2[MAX_WORD_SIZE];
     char wordsPlayed[NUM_WORDS][MAX_WORD_SIZE];
     int noWordsPlayed = 0;
-    scanf("%s", bonusString1);
-    scanf("%s", bonusString2);
-    scanf("%d", &n);
+    fgets(bonusString1, sizeof(bonusString1), stdin);
+    fgets(bonusString2, sizeof(bonusString2), stdin);
+    removeNewLineFromString(bonusString1);
+    removeNewLineFromString(bonusString2);
+    n = readInteger();
     for (int i = 0; i < n; i++) {
         scanf("%d%d%d%s", &y, &x, &direction, word);
         strcpy(wordsPlayed[noWordsPlayed++], word);
@@ -343,8 +392,7 @@ int main() {
         }
     }
 
-    int task = 0;
-    scanf("%d", &task);  // Citesc numarul task-ului
+    int task = readInteger();
 
     if (task == 0) {
         print_board(board);

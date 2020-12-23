@@ -1,0 +1,2 @@
+Player 1: 20 Points
+Player 2: 10 Points

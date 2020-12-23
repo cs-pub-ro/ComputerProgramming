@@ -1,0 +1,7 @@
+3
+EP
+RD
+3
+4 5 0 BIRD
+4 5 1 BAKE
+7 5 0 ELEPHANT

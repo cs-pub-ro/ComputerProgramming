@@ -1,0 +1,46 @@
+Cycle 1 of game!
+Crewmate John went to location (2,0).
+Crewmate John's output:
+31
+Crewmate Adam went to location (7,7).
+Crewmate Adam's output:
+61 51 41 31 21 11
+62 52 42 32 22 12
+63 53 43 33 23 13
+64 54 44 34 24 14
+65 55 45 35 25 15
+66 56 46 36 26 16
+Crewmate Michel went to location (6,6).
+Crewmate Michel's output:
+7 6 5 4 3 2 1
+Impostor Mark went to location (1,1).
+Impostor Mark's output:
+Impostor Mark has just killed crewmate John from distance 2.
+
+Cycle 2 of game!
+Crewmate John is dead.
+Crewmate Adam went to location (2,2).
+Crewmate Adam's output:
+61 51 41 31 21 11
+62 52 42 32 22 12
+63 53 43 33 23 13
+64 54 44 34 24 14
+65 55 45 35 25 15
+66 56 46 36 26 16
+Crewmate Michel went to location (6,6).
+Crewmate Michel's output:
+7 6 5 4 3 2 1
+Impostor Mark went to location (1,1).
+Impostor Mark's output:
+Impostor Mark has just killed crewmate Adam from distance 2.
+
+Cycle 3 of game!
+Crewmate John is dead.
+Crewmate Adam is dead.
+Crewmate Michel went to location (6,6).
+Crewmate Michel's output:
+7 6 5 4 3 2 1
+Impostor Mark went to location (1,1).
+Impostor Mark's output:
+Impostor Mark couldn't kill anybody.
+

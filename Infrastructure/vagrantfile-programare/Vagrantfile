@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-20.04"
+
+  config.vm.provider "virtualbox" do |v|
+    v.name = "programare"
+    v.memory = 1024
+  end
+
+  # Do the rest of the provisioning using ansible
+  config.vm.provision :ansible, playbook: "../playbooks-programare/master-lite.yml"
+
+  config.vm.provision :reload
+end

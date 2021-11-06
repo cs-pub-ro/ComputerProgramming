@@ -1,0 +1,14 @@
+- name: Install the toolchain
+  apt:
+    name: ['build-essential', 'git']
+    state: present
+
+- name: Install the editors
+  apt:
+    name: ['emacs', 'vim-nox']
+    state: present
+
+- name: Install misc tools
+  apt:
+    name: ['ack', 'htop', 'mc']
+    state: present
